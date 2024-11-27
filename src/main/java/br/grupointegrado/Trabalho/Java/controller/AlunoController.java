@@ -4,6 +4,7 @@ import br.grupointegrado.Trabalho.Java.dto.AlunoRequestDTO;
 import br.grupointegrado.Trabalho.Java.model.Aluno;
 import br.grupointegrado.Trabalho.Java.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.*;
@@ -18,14 +19,20 @@ public class AlunoController {
 
 
     @GetMapping
-    public List<Aluno> findAll() {
-        return this.repository.findAll();
+    public ResponseEntity<List<Aluno>> findAll() {
+    //    return this.repository.findAll();
+
+        return ResponseEntity.ok(this.repository.findAll());
     }
 
     @GetMapping("/{id}")
-    public Aluno findById(@PathVariable Integer id){
-        return this.repository.findById(id)
+    public ResponseEntity<Aluno> findById(@PathVariable Integer id){
+    //    return this.repository.findById(id)
+    //            .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado"));
+        Aluno aluno = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado"));
+
+        return ResponseEntity.ok(aluno);
     }
 
     @PostMapping
@@ -54,9 +61,11 @@ public class AlunoController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         Aluno aluno = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado"));
         this.repository.delete(aluno);
+
+        return ResponseEntity.noContent().build();
     }
 }
