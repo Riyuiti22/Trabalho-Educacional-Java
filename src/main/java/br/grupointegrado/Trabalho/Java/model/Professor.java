@@ -8,19 +8,19 @@ public class Professor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    private Integer id;
 
     @Column
-    public String nome;
+    private String nome;
 
     @Column
-    public String email;
+    private String email;
 
     @Column
-    public String telefone;
+    private String telefone;
 
     @Column
-    public String especialidade;
+    private String especialidade;
 
     public Integer getId() {
         return id;
