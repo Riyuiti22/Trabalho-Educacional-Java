@@ -19,6 +19,7 @@ public class Disciplina {
 
     @ManyToOne
     @JoinColumn(name = "professor_id", referencedColumnName = "id")
+    @JsonIgnore
     private Professor professor;
 
     @ManyToOne

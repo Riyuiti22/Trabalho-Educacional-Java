@@ -2,6 +2,7 @@ package br.grupointegrado.Trabalho.Java.controller;
 
 import br.grupointegrado.Trabalho.Java.dto.DisciplinaRequestDTO;
 import br.grupointegrado.Trabalho.Java.dto.ProfessorRequestDTO;
+import br.grupointegrado.Trabalho.Java.model.Curso;
 import br.grupointegrado.Trabalho.Java.model.Disciplina;
 import br.grupointegrado.Trabalho.Java.model.Professor;
 import br.grupointegrado.Trabalho.Java.repository.CursoRepository;
@@ -23,6 +24,9 @@ public class DisciplinaController {
     @Autowired
     ProfessorRepository professorRepository;
 
+    @Autowired
+    CursoRepository cursoRepository;
+
 
     @GetMapping
     public ResponseEntity<List<Disciplina>> findAll() {
@@ -30,14 +34,20 @@ public class DisciplinaController {
     }
 
     @PostMapping("/{id}/add-disciplina")
-    public ResponseEntity<Professor> addDisciplina(@PathVariable Integer id,
-                                                   @RequestBody Disciplina disciplina){
-        Professor professor = this.professorRepository.findById(id)
+    public ResponseEntity<Disciplina> addDisciplina(@RequestBody DisciplinaRequestDTO dto){
+        Professor professor = professorRepository.findById(dto.professorId())
                 .orElseThrow(() -> new IllegalArgumentException("Professor não encontrado"));
-        disciplina.setProfessor(professor);
-        this.disciplinaRepository.save(disciplina);
+        Curso curso = cursoRepository.findById(dto.cursoId())
+                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
 
-        return ResponseEntity.ok(professor);
+        Disciplina disciplina = new Disciplina();
+        disciplina.setNome(dto.nome());
+        disciplina.setCodigo(dto.codigo());
+        disciplina.setProfessor(professor);
+        disciplina.setCurso(curso);
+        disciplinaRepository.save(disciplina);
+
+        return ResponseEntity.ok(disciplina);
     }
 
 }

@@ -46,27 +46,4 @@ public class CursoController {
 
         return this.repository.save(curso);
     }
-
-    @PostMapping("/{id}/add-turma")
-    public ResponseEntity<Curso> addTurma(@PathVariable Integer id,
-                                           @RequestBody Turma turma){
-        Curso curso = this.repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
-
-        turma.setCurso(curso);
-        this.turmaRepository.save(turma);
-
-        return ResponseEntity.ok(curso);
-    }
-    @PostMapping("/{id}/add-disciplina")
-    public ResponseEntity<Curso> addDisciplina(@PathVariable Integer id,
-                                               @RequestBody Disciplina disciplina){
-        Curso curso = this.repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
-
-        disciplina.setCurso(curso);
-        this.disciplinaRepository.save(disciplina);
-
-        return ResponseEntity.ok(curso);
-    }
 }

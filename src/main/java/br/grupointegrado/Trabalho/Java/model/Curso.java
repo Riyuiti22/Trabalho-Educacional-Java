@@ -22,11 +22,11 @@ public class Curso {
     @Column
     private Integer carga_horaria;
 
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "curso")
     @JsonIgnoreProperties("curso")
     private List<Turma> turma;
 
-    @OneToMany(mappedBy = "curso", cascade =  CascadeType.ALL)
+    @OneToMany(mappedBy = "curso")
     @JsonIgnoreProperties("curso")
     private List<Disciplina> disciplina;
 
