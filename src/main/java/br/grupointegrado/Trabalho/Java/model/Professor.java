@@ -1,6 +1,9 @@
 package br.grupointegrado.Trabalho.Java.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "professores")
@@ -21,6 +24,10 @@ public class Professor {
 
     @Column
     private String especialidade;
+
+    @OneToMany(mappedBy = "professor")
+    @JsonIgnoreProperties("professor")
+    private List<Disciplina> disciplina;
 
     public Integer getId() {
         return id;
@@ -60,5 +67,13 @@ public class Professor {
 
     public void setEspecialidade(String especialidade) {
         this.especialidade = especialidade;
+    }
+
+    public List<Disciplina> getDisciplina() {
+        return disciplina;
+    }
+
+    public void setDisciplina(List<Disciplina> disciplina) {
+        this.disciplina = disciplina;
     }
 }

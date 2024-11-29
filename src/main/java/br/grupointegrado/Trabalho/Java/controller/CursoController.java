@@ -2,11 +2,14 @@ package br.grupointegrado.Trabalho.Java.controller;
 
 import br.grupointegrado.Trabalho.Java.dto.CursoRequestDTO;
 import br.grupointegrado.Trabalho.Java.model.Curso;
+import br.grupointegrado.Trabalho.Java.model.Disciplina;
 import br.grupointegrado.Trabalho.Java.model.Professor;
 import br.grupointegrado.Trabalho.Java.model.Turma;
 import br.grupointegrado.Trabalho.Java.repository.CursoRepository;
+import br.grupointegrado.Trabalho.Java.repository.DisciplinaRepository;
 import br.grupointegrado.Trabalho.Java.repository.ProfessorRepository;
 import br.grupointegrado.Trabalho.Java.repository.TurmaRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,12 @@ public class CursoController {
 
     @Autowired
     private TurmaRepository turmaRepository;
+
+    @Autowired
+    private DisciplinaRepository disciplinaRepository;
+
+    @Autowired
+    private ProfessorRepository professorRepository;
 
     @GetMapping
     public ResponseEntity<List<Curso>> findAll(){
@@ -46,6 +55,17 @@ public class CursoController {
 
         turma.setCurso(curso);
         this.turmaRepository.save(turma);
+
+        return ResponseEntity.ok(curso);
+    }
+    @PostMapping("/{id}/add-disciplina")
+    public ResponseEntity<Curso> addDisciplina(@PathVariable Integer id,
+                                               @RequestBody Disciplina disciplina){
+        Curso curso = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
+
+        disciplina.setCurso(curso);
+        this.disciplinaRepository.save(disciplina);
 
         return ResponseEntity.ok(curso);
     }

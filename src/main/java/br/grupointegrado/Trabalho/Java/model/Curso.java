@@ -22,9 +22,14 @@ public class Curso {
     @Column
     private Integer carga_horaria;
 
-    @OneToMany(mappedBy = "curso")
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("curso")
     private List<Turma> turma;
+
+    @OneToMany(mappedBy = "curso", cascade =  CascadeType.ALL)
+    @JsonIgnoreProperties("curso")
+    private List<Disciplina> disciplina;
+
 
     public Integer getId() {
         return id;
@@ -64,5 +69,13 @@ public class Curso {
 
     public void setTurma(List<Turma> turma) {
         this.turma = turma;
+    }
+
+    public List<Disciplina> getDisciplina() {
+        return disciplina;
+    }
+
+    public void setDisciplina(List<Disciplina> disciplina) {
+        this.disciplina = disciplina;
     }
 }

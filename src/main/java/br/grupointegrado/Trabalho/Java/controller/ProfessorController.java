@@ -3,8 +3,10 @@ package br.grupointegrado.Trabalho.Java.controller;
 import br.grupointegrado.Trabalho.Java.dto.AlunoRequestDTO;
 import br.grupointegrado.Trabalho.Java.dto.ProfessorRequestDTO;
 import br.grupointegrado.Trabalho.Java.model.Aluno;
+import br.grupointegrado.Trabalho.Java.model.Disciplina;
 import br.grupointegrado.Trabalho.Java.model.Professor;
 import br.grupointegrado.Trabalho.Java.repository.AlunoRepository;
+import br.grupointegrado.Trabalho.Java.repository.DisciplinaRepository;
 import br.grupointegrado.Trabalho.Java.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ public class ProfessorController {
 
     @Autowired
     private ProfessorRepository repository;
+
+    @Autowired
+    private DisciplinaRepository disciplinaRepository;
 
 
     @GetMapping
@@ -69,4 +74,5 @@ public class ProfessorController {
 
         return ResponseEntity.noContent().build();
     }
+
 }
