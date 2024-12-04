@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "alunos")
@@ -29,6 +30,11 @@ public class Aluno {
     @OneToMany(mappedBy = "aluno")
     @JsonIgnoreProperties("aluno")
     private List<Matricula> matriculas;
+    
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        return email != null && Pattern.compile(emailRegex).matcher(email).matches();
+    }
 
     public Integer getId() {
         return id;
@@ -48,10 +54,6 @@ public class Aluno {
 
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getMatricula() {
@@ -76,5 +78,9 @@ public class Aluno {
 
     public void setMatriculas(List<Matricula> matriculas) {
         this.matriculas = matriculas;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
