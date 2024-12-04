@@ -50,4 +50,31 @@ public class DisciplinaController {
         return ResponseEntity.ok(disciplina);
     }
 
+    @PutMapping("/{id}/atualizar-disciplina")
+    public ResponseEntity<Disciplina> update(@PathVariable Integer id,
+                                             @RequestBody DisciplinaRequestDTO dto){
+        Disciplina disciplina = this.disciplinaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Disciplina não encontrada"));
+        Professor professor = professorRepository.findById(dto.professorId())
+                .orElseThrow(() -> new IllegalArgumentException("Professor não encontrado"));
+        Curso curso = cursoRepository.findById(dto.cursoId())
+                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
+
+        disciplina.setNome(dto.nome());
+        disciplina.setCodigo(dto.codigo());
+        disciplina.setProfessor(professor);
+        disciplina.setCurso(curso);
+        disciplinaRepository.save(disciplina);
+
+        return ResponseEntity.ok(this.disciplinaRepository.save(disciplina));
+    }
+
+    @DeleteMapping("/{id}/deletar-disciplina")
+    public ResponseEntity<Void> delete (@PathVariable Integer id){
+        Disciplina disciplina = this.disciplinaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Disciplina não encontrada"));
+
+        this.disciplinaRepository.delete(disciplina);
+        return ResponseEntity.noContent().build();
+    }
 }

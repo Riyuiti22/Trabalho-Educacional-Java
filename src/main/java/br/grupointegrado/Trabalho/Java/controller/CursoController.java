@@ -46,4 +46,26 @@ public class CursoController {
 
         return this.repository.save(curso);
     }
+
+    @PutMapping("/{id}/atualizar-curso")
+    public ResponseEntity<Curso> update(@PathVariable Integer id,
+                                        @RequestBody CursoRequestDTO dto){
+        Curso curso = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
+
+        curso.setNome(dto.nome());
+        curso.setCodigo(dto.codigo());
+        curso.setCarga_horaria(dto.carga_horaria());
+
+        return ResponseEntity.ok(this.repository.save(curso));
+    }
+
+    @DeleteMapping("/{id}/deletar-curso")
+    public ResponseEntity<Void> delete(@PathVariable Integer id){
+        Curso curso = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
+
+        this.repository.delete(curso);
+        return ResponseEntity.noContent().build();
+    }
 }
